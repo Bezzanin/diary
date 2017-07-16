@@ -1,72 +1,64 @@
 import Expo from 'expo';
-import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { NavigationProvider, StackNavigation } from '@expo/ex-navigation';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { Component } from 'react';
+import { StatusBar } from 'react-native';
+import DrawerNavigationExample from './pages/DrawerNavigationExample';
+import HomeScreen from './pages/HomeScreen';
+import TimetableScreen from './pages/TimetableScreen';
+import MapScreen from './pages/MapScreen';
+import EventList from './pages/components/EventsList'
 
-import Router from './navigation/Router';
-import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+import {
+  createRouter,
+  NavigationProvider,
+} from '@expo/ex-navigation';
 
-class AppContainer extends React.Component {
+const assets = [
+
+];
+/**
+  * This is where we map route names to route components. Any React
+  * component can be a route, it only needs to have a static `route`
+  * property defined on it, as in HomeScreen below
+  */
+export const Router = createRouter(() => ({
+  home: () => HomeScreen,
+  timetable: () => TimetableScreen,
+  map: () => MapScreen,
+  EventList: () => EventListScreen,
+  
+}));
+
+class App extends Component {
+
   state = {
-    appIsReady: false,
+    bootstrapped: false,
   };
 
-  componentWillMount() {
-    this._loadAssetsAsync();
+  componentDidMount() {
+    this._bootstrap();
   }
 
-  async _loadAssetsAsync() {
-    try {
-      await cacheAssetsAsync({
-        images: [require('./assets/images/expo-wordmark.png')],
-        fonts: [
-          FontAwesome.font,
-          { 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf') },
-        ],
-      });
-    } catch (e) {
-      console.warn(
-        'There was an error caching assets (see: main.js), perhaps due to a ' +
-          'network timeout, so we skipped caching. Reload the app to try again.'
-      );
-      console.log(e.message);
-    } finally {
-      this.setState({ appIsReady: true });
-    }
-  }
+  _bootstrap = async () => {
+    const promises = assets.map(module => Asset.fromModule(module).downloadAsync());
+    await Promise.all(promises);
+    this.setState({
+      bootstrapped: true,
+    });
+  };
 
   render() {
-    if (this.state.appIsReady) {
-      return (
-        <View style={styles.container}>
-          <NavigationProvider router={Router}>
-            <StackNavigation
-              id="root"
-              initialRoute={Router.getRoute('rootNavigation')}
-            />
-          </NavigationProvider>
-
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' &&
-            <View style={styles.statusBarUnderlay} />}
-        </View>
-      );
-    } else {
-      return <Expo.AppLoading />;
+    if (!this.state.bootstrapped) {
+      return (<Expo.AppLoading />);
     }
+
+    
+    return (
+      <NavigationProvider router={Router}>
+        <StatusBar barStyle="light-content" />
+        <DrawerNavigationExample />
+      </NavigationProvider>
+    );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-});
-
-Expo.registerRootComponent(AppContainer);
+Expo.registerRootComponent(App);

@@ -1,7 +1,7 @@
 {
-  "name": "diarygym",
+  "name": "tornio-atlas",
   "description": "No description",
-  "slug": "diarygym",
+  "slug": "tornio-atlas",
   "privacy": "public",
   "sdkVersion": "16.0.0",
   "version": "1.0.0",
@@ -20,6 +20,10 @@
     "assetExts": ["ttf"]
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": true,
+    "bundleIdentifier": "tornioatlas.yaba.exp"
+  },
+  "android": {
+    "package": "tornioatlas.yaba.exp"
   }
 }

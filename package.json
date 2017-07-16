@@ -1,5 +1,5 @@
 {
-  "name": "diarygym",
+  "name": "tonio-atlas",
   "version": "0.0.0",
   "description": "Hello Expo!",
   "author": null,
@@ -15,7 +15,14 @@
     "@expo/samples": "~1.0.3",
     "expo": "16.0.0",
     "react": "16.0.0-alpha.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz",
+    "react-native-calendar": "^0.11.0",
+    "react-native-calendar-strip": "^0.1.4",
+    "react-native-elements": "^0.9.7",
+    "react-native-geocoding": "^0.1.0",
+    "react-native-modal-dropdown": "^0.4.2",
+    "react-native-svg-image": "^1.1.0",
+    "react-navigation": "^1.0.0-beta.11"
   },
   "devDependencies": {
     "jest-expo": "0.4.0"

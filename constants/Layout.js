@@ -1,4 +1,6 @@
-import { Dimensions } from 'react-native';
+import {
+  Dimensions,
+} from 'react-native';
 
 export default {
   window: {
